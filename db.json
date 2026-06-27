@@ -1,0 +1,27 @@
+{
+  "students": [
+    {
+      "rollNumber": "101",
+      "name": "Rahul Sharma",
+      "phone": "9876543210",
+      "email": "rahul@gmail.com",
+      "age": 20,
+      "class": "BCA",
+      "grade": "A",
+      "image": "https://i.pravatar.cc/150?img=1",
+      "id": "T-wDIiLVvtk"
+    },
+    {
+      "rollNumber": "102",
+      "name": "ABC",
+      "phone": "123456789",
+      "email": "abc@gmail.com",
+      "age": "26",
+      "class": "BCA",
+      "grade": "A+",
+      "image": "https://static.vecteezy.com/system/resources/thumbnails/033/129/417/small/a-business-man-stands-against-white-background-with-his-arms-crossed-ai-generative-photo.jpg",
+      "id": "7S3EAVLQU_Y"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
