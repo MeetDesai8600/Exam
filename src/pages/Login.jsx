@@ -5,11 +5,9 @@ function Login() {
 
   const navigate = useNavigate();
 
-  const [username, setUsername] =
-    useState("");
+  const [username, setUsername] =  useState("");
 
-  const [password, setPassword] =
-    useState("");
+  const [password, setPassword] =  useState("");
 
   const handleLogin = () => {
 
@@ -18,18 +16,13 @@ function Login() {
       password === "12345"
     ) {
 
-      localStorage.setItem(
-        "isAuthenticated",
-        true
-      );
+      localStorage.setItem("isAuthenticated", true);
 
       navigate("/");
     }
     else {
 
-      alert(
-        "Username: admin\nPassword: 12345"
-      );
+      alert("Username: admin\nPassword: 12345");
     }
   };
 

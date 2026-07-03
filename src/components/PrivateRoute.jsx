@@ -5,8 +5,7 @@ function PrivateRoute({ children }) {
   const isAuthenticated =
     localStorage.getItem("isAuthenticated");
 
-  return
-   isAuthenticated ? children : <Navigate to="/login" />;
+  return isAuthenticated ? children : <Navigate to="/login" />;
 }
 
 export default PrivateRoute;

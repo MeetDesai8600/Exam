@@ -15,13 +15,11 @@ function App() {
 
       <Routes>
 
-        <Route
-          path="/"
-          element={
-            <PrivateRoute>
-              <StudentList />
-            </PrivateRoute>
-          }
+        <Route path="/" element={
+          <PrivateRoute>
+            <StudentList />
+          </PrivateRoute>
+        }
         />
 
         <Route
@@ -32,7 +30,7 @@ function App() {
             </PrivateRoute>
           }
         />
-         <Route
+        <Route
           path="/edit/:id"
           element={
             <PrivateRoute>

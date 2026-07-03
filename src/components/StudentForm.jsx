@@ -1,11 +1,14 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addStudent } from "../redux/actions/studentActions";
-import { useNavigate } from "react-router-dom";
-function StudentForm() {
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addStudent, updateStudent } from "../redux/actions/studentActions";
+import { useNavigate, useParams } from "react-router-dom";
 
+function StudentForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
+
+  const students = useSelector((state) => state.students);
 
   const [student, setStudent] = useState({
     rollNumber: "",
@@ -18,6 +21,19 @@ function StudentForm() {
     image: ""
   });
 
+  // Load existing student while editing
+  useEffect(() => {
+    if (id) {
+      const existingStudent = students.find(
+        (student) => String(student.id) === String(id)
+      );
+
+      if (existingStudent) {
+        setStudent(existingStudent);
+      }
+    }
+  }, [id, students]);
+
   const handleChange = (e) => {
     setStudent({
       ...student,
@@ -26,23 +42,29 @@ function StudentForm() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  await dispatch(addStudent(student));
+    if (id) {
+      await dispatch(updateStudent(id, student));
+      alert("Student Updated Successfully");
+    } else {
+      await dispatch(addStudent(student));
+      alert("Student Added Successfully");
+    }
 
-  alert("Student Added Successfully");
+    navigate("/");
+  };
 
-  navigate("/");
-};
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
+
         <div className="col-md-8">
 
-          <div className="card shadow-lg border-0">
+          <div className="card shadow-lg">
 
             <div className="card-header bg-primary text-white text-center">
-              <h2>Add Student</h2>
+              <h2>{id ? "Update Student" : "Add Student"}</h2>
             </div>
 
             <div className="card-body">
@@ -52,112 +74,95 @@ function StudentForm() {
                 <div className="row">
 
                   <div className="col-md-6 mb-3">
-                    <label className="form-label">
-                      Roll Number
-                    </label>
+                    <label className="form-label">Roll Number</label>
                     <input
                       type="text"
-                      name="rollNumber"
                       className="form-control"
-                      placeholder="Enter Roll Number"
+                      name="rollNumber"
                       value={student.rollNumber}
                       onChange={handleChange}
+                      required
                     />
                   </div>
 
                   <div className="col-md-6 mb-3">
-                    <label className="form-label">
-                      Student Name
-                    </label>
+                    <label className="form-label">Student Name</label>
                     <input
                       type="text"
-                      name="name"
                       className="form-control"
-                      placeholder="Enter Name"
+                      name="name"
                       value={student.name}
                       onChange={handleChange}
+                      required
                     />
                   </div>
 
                   <div className="col-md-6 mb-3">
-                    <label className="form-label">
-                      Phone Number
-                    </label>
+                    <label className="form-label">Phone</label>
                     <input
                       type="text"
-                      name="phone"
                       className="form-control"
-                      placeholder="Enter Phone Number"
+                      name="phone"
                       value={student.phone}
                       onChange={handleChange}
+                      required
                     />
                   </div>
 
                   <div className="col-md-6 mb-3">
-                    <label className="form-label">
-                      Email
-                    </label>
+                    <label className="form-label">Email</label>
                     <input
                       type="email"
-                      name="email"
                       className="form-control"
-                      placeholder="Enter Email"
+                      name="email"
                       value={student.email}
                       onChange={handleChange}
+                      required
                     />
                   </div>
 
                   <div className="col-md-6 mb-3">
-                    <label className="form-label">
-                      Age
-                    </label>
+                    <label className="form-label">Age</label>
                     <input
                       type="number"
-                      name="age"
                       className="form-control"
-                      placeholder="Enter Age"
+                      name="age"
                       value={student.age}
                       onChange={handleChange}
+                      required
                     />
                   </div>
 
                   <div className="col-md-6 mb-3">
-                    <label className="form-label">
-                      Class
-                    </label>
+                    <label className="form-label">Class</label>
                     <input
                       type="text"
-                      name="class"
                       className="form-control"
-                      placeholder="BCA / MCA / BSC"
+                      name="class"
                       value={student.class}
                       onChange={handleChange}
+                      required
                     />
                   </div>
 
                   <div className="col-md-6 mb-3">
-                    <label className="form-label">
-                      Grade
-                    </label>
+                    <label className="form-label">Grade</label>
                     <input
                       type="text"
-                      name="grade"
                       className="form-control"
-                      placeholder="A+"
+                      name="grade"
                       value={student.grade}
                       onChange={handleChange}
+                      required
                     />
                   </div>
 
                   <div className="col-md-6 mb-3">
-                    <label className="form-label">
-                      Image URL
-                    </label>
+                    <label className="form-label">Image URL</label>
                     <input
                       type="text"
-                      name="image"
                       className="form-control"
-                      placeholder="Paste Image URL"
+                      name="image"
                       value={student.image}
                       onChange={handleChange}
                     />
@@ -165,13 +170,15 @@ function StudentForm() {
 
                 </div>
 
-                <div className="text-center mt-3">
+                <div className="text-center mt-4">
 
                   <button
                     type="submit"
-                    className="btn btn-success btn-lg px-5"
+                    className={`btn btn-lg px-5 ${
+                      id ? "btn-warning" : "btn-success"
+                    }`}
                   >
-                    Add Student
+                    {id ? "Update Student" : "Add Student"}
                   </button>
 
                 </div>
@@ -183,6 +190,7 @@ function StudentForm() {
           </div>
 
         </div>
+
       </div>
     </div>
   );
